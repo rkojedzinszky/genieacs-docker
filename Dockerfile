@@ -1,4 +1,4 @@
-FROM node
+FROM node:8-stretch
 MAINTAINER Richard Kojedzinszky <krichy@nmdps.net>
 
 RUN mkdir -p /opt/app && \
