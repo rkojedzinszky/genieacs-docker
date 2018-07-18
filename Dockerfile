@@ -1,5 +1,7 @@
-FROM node:8-stretch
+FROM node:8-alpine
 MAINTAINER Richard Kojedzinszky <krichy@nmdps.net>
+
+RUN apk --no-cache add -t .build-deps curl coreutils
 
 RUN mkdir -p /opt/app && \
     curl -L https://github.com/zaidka/genieacs/archive/master.tar.gz | tar xzf - -C /opt/app --strip-components=1
@@ -7,6 +9,8 @@ RUN mkdir -p /opt/app && \
 WORKDIR /opt/app
 
 RUN npm install && npm run configure && npm run compile
+
+RUN apk --no-cache del .build-deps
 
 EXPOSE 7777
 
@@ -31,4 +35,4 @@ ADD assets /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-CMD ["/bin/bash"]
+CMD ["/bin/sh"]
